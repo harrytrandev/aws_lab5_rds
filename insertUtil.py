@@ -10,11 +10,11 @@ def getAttr(cols, dtype):
     return attr
 
 def insert(conn):
-    # Mình chỉ chọn ra 5 ngày đầu tháng 1/2022 để demo cho bài Lab
-    dt=['01-01-2022','01-02-2022','01-03-2022','01-04-2022','01-05-2022']
+    # Lấy dữ liêu từ 5 ngày đầu tháng 10/2022
+    dt=['10-01-2022','10-02-2022','10-03-2022','10-04-2022','10-05-2022']
     counter = 1
     for d in dt:
-        # Ta lấy dữ liệu từ linh raw trên github thầy cung cấp
+        # Lấy dữ liệu từ link raw của github data COVID-19 trong đề
         url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/' + d + '.csv'
         df = pd.read_csv(url, index_col=0)
         cols = list(df.columns)
@@ -22,9 +22,9 @@ def insert(conn):
         attr = 'id int, ' + attr
         attr += ', PRIMARY KEY (id)'
         mycursor = conn.cursor()
-        # Ta tạo bảng nếu chưa tồn tại với khoá chính là id
+        # Tạo bảng
         mycursor.execute('CREATE TABLE IF NOT EXISTS ' + tablename +'(' + attr + ')')
-        for index, row in df.iterrows():
+        for _, row in df.iterrows():
             attr = getAttr(cols,'')
             attr = 'id, ' + attr
             vals = list()
@@ -36,7 +36,7 @@ def insert(conn):
             vals.insert(0, counter)
             x = tuple(vals)
             params += '%s'
-            # Ta viết query để insert vào DB
+            # Insert dữ liệu
             query = 'INSERT INTO ' + tablename + ' (' + attr + ') ' + 'VALUES ('+params+')'
             mycursor.execute(query, x)
             print('total ' + str(counter) + ' row inserted')

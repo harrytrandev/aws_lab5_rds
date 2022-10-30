@@ -31,8 +31,8 @@ def createTable():
     table.wait_util_exists()
 
 def insert():
-    # Tương tự, mình chỉ xét 5 ngày đầu tháng 1/2022
-    dt=['01-01-2022','01-02-2022','01-03-2022','01-04-2022','01-05-2022']
+    # Lấy dữ liêu từ 5 ngày đầu tháng 10/2022
+    dt=['10-01-2022','10-02-2022','10-03-2022','10-04-2022','10-05-2022']
     counter = 1
     table = dynamodb.Table(tablename)
     for d in dt:
